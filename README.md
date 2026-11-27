@@ -1,4 +1,4 @@
-# aiui · AI 驱动的 UI 自动化测试框架
+# AI 驱动的 UI 自动化测试框架
 
 ![Python](https://img.shields.io/badge/python-3.10%2B-blue)
 ![Tests](https://img.shields.io/badge/tests-98%20passed-brightgreen)
