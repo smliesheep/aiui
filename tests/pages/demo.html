@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<title>Demo Bank</title>
+<style>
+  body { font-family: system-ui, "Microsoft YaHei", sans-serif; margin: 32px; color: #222; }
+  h1 { font-size: 22px; }
+  form { margin: 16px 0; padding: 16px; border: 1px solid #ddd; border-radius: 8px; max-width: 420px; }
+  label { display: block; margin: 8px 0 4px; font-size: 13px; color: #555; }
+  input { width: 100%; padding: 8px; box-sizing: border-box; border: 1px solid #ccc; border-radius: 4px; }
+  button { margin-top: 12px; padding: 8px 16px; border: 0; border-radius: 4px; background: #2563eb; color: #fff; cursor: pointer; }
+  button.secondary { background: #6b7280; }
+  #toast { position: fixed; right: 20px; top: 20px; padding: 10px 16px; border-radius: 6px;
+           background: #16a34a; color: #fff; opacity: 0; transition: opacity .2s; }
+  #toast.show { opacity: 1; }
+  #toast.error { background: #dc2626; }
+  table { border-collapse: collapse; margin-top: 16px; min-width: 420px; }
+  th, td { border: 1px solid #e5e7eb; padding: 6px 12px; font-size: 13px; text-align: left; }
+  .balance { font-size: 20px; font-weight: 700; color: #111; }
+  [hidden] { display: none !important; }
+</style>
+</head>
+<body>
+<h1>Demo Bank</h1>
+
+<form id="login-form">
+  <label for="username">Username</label>
+  <input id="username" name="username" placeholder="Username" autocomplete="off" />
+  <label for="password">Password</label>
+  <input id="password" name="password" type="password" placeholder="Password" />
+  <button id="login-btn" type="submit">Login</button>
+</form>
+
+<section id="dashboard" hidden>
+  <p>Balance: <span class="balance" id="balance">1,250.00</span> <span id="currency">USD</span></p>
+
+  <form id="transfer-form">
+    <label for="payee">Payee Account</label>
+    <input id="payee" name="payee" placeholder="Payee Account" />
+    <label for="amount">Amount</label>
+    <input id="amount" name="amount" placeholder="Amount" />
+    <button id="confirm-transfer" type="submit">Confirm Transfer</button>
+  </form>
+
+  <a href="#records" id="confirm-records">Confirm Transfer Records</a>
+  <button id="late-btn" class="secondary" hidden>Balance Details</button>
+
+  <table id="records">
+    <thead><tr><th>Time</th><th>Type</th><th>Amount</th><th>Status</th></tr></thead>
+    <tbody id="records-body"></tbody>
+  </table>
+</section>
+
+<div id="toast"></div>
+
+<script>
+  const state = { balance: 1250.0, loggedIn: false };
+
+  function toast(msg, ok = true) {
+    const el = document.getElementById('toast');
+    el.textContent = msg;
+    el.className = 'show' + (ok ? '' : ' error');
+    setTimeout(() => { el.className = ''; }, 8000);
+  }
+
+  function fmt(v) { return v.toFixed(2).replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+  function addRow(type, amount, status) {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `<td>${new Date().toLocaleTimeString()}</td><td>${type}</td>
+                    <td>${amount}</td><td>${status}</td>`;
+    document.getElementById('records-body').prepend(tr);
+  }
+
+  document.getElementById('login-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    const u = document.getElementById('username').value.trim();
+    const p = document.getElementById('password').value.trim();
+    if (!u || !p) { toast('Username and password are required', false); return; }
+    state.loggedIn = true;
+    document.getElementById('login-form').hidden = true;
+    document.getElementById('dashboard').hidden = false;
+    setTimeout(() => { document.getElementById('late-btn').hidden = false; }, 800);
+    toast('Login successful');
+  });
+
+  document.getElementById('transfer-form').addEventListener('submit', (e) => {
+    e.preventDefault();
+    if (!state.loggedIn) { toast('Please login first', false); return; }
+    const payee = document.getElementById('payee').value.trim();
+    const amount = parseFloat(document.getElementById('amount').value);
+    if (!payee) { toast('Payee account is required', false); return; }
+    if (!amount || amount <= 0) { toast('Amount must be positive', false); return; }
+    if (amount > state.balance) { toast('Insufficient balance', false); return; }
+    state.balance -= amount;
+    document.getElementById('balance').textContent = fmt(state.balance);
+    addRow('TRANSFER', fmt(amount), 'SUCCESS');
+    toast('Transfer successful');
+  });
+
+  document.getElementById('confirm-records').addEventListener('click', (e) => {
+    e.preventDefault();
+    toast('Records refreshed');
+  });
+</script>
+</body>
+</html>

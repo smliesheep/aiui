@@ -1,0 +1,221 @@
+{
+  "plan_id": "login-and-transfer",
+  "title": "登录并转账",
+  "requirement": "在 Demo Bank 登录：用户名 alice，密码 secret，点击登录；登录后向账户 11111111 转账 100 USD，点击确认转账按钮，断言页面出现 Transfer successful，并断言余额变成 1,150.00",
+  "base_url": "http://127.0.0.1:8765/demo.html",
+  "tags": [
+    "auth",
+    "transfer"
+  ],
+  "preconditions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "action": "navigate",
+      "target": null,
+      "value": "/demo.html",
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L0",
+      "intent": "打开 Demo Bank 页面",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s2",
+      "action": "input",
+      "target": {
+        "description": "用户名输入框",
+        "hints": {
+          "text": null,
+          "label": "Username",
+          "placeholder": null,
+          "aria_label": null,
+          "role": null,
+          "name": "username",
+          "test_id": "username",
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": "alice",
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L1",
+      "intent": "输入用户名",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s3",
+      "action": "input",
+      "target": {
+        "description": "密码输入框",
+        "hints": {
+          "text": null,
+          "label": "Password",
+          "placeholder": null,
+          "aria_label": null,
+          "role": null,
+          "name": "password",
+          "test_id": "password",
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": "secret",
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L1",
+      "intent": "输入密码",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s4",
+      "action": "click",
+      "target": {
+        "description": "登录按钮",
+        "hints": {
+          "text": "Login",
+          "label": null,
+          "placeholder": null,
+          "aria_label": null,
+          "role": "button",
+          "name": null,
+          "test_id": null,
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": null,
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L2",
+      "intent": "点击登录",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s5",
+      "action": "input",
+      "target": {
+        "description": "收款账号输入框",
+        "hints": {
+          "text": null,
+          "label": "Payee Account",
+          "placeholder": null,
+          "aria_label": null,
+          "role": null,
+          "name": "payee",
+          "test_id": "payee",
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": "11111111",
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L1",
+      "intent": "输入收款账号",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s6",
+      "action": "input",
+      "target": {
+        "description": "转账金额输入框",
+        "hints": {
+          "text": null,
+          "label": "Amount",
+          "placeholder": null,
+          "aria_label": null,
+          "role": null,
+          "name": "amount",
+          "test_id": "amount",
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": "100",
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L3",
+      "intent": "输入转账金额",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s7",
+      "action": "click",
+      "target": {
+        "description": "确认转账按钮",
+        "hints": {
+          "text": "Confirm Transfer",
+          "label": null,
+          "placeholder": null,
+          "aria_label": null,
+          "role": "button",
+          "name": null,
+          "test_id": null,
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": null,
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L3",
+      "intent": "提交转账",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s8",
+      "action": "assert_text",
+      "target": null,
+      "value": null,
+      "assertion": {
+        "kind": "contains",
+        "expected": "Transfer successful"
+      },
+      "timeout_ms": 8000,
+      "risk": "L0",
+      "intent": "确认转账成功提示",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s9",
+      "action": "assert_text",
+      "target": {
+        "description": "账户余额显示区域",
+        "hints": {
+          "text": null,
+          "label": null,
+          "placeholder": null,
+          "aria_label": null,
+          "role": null,
+          "name": null,
+          "test_id": null,
+          "nearby_text": "Balance",
+          "container_text": "balance"
+        },
+        "frame": null
+      },
+      "value": null,
+      "assertion": {
+        "kind": "contains",
+        "expected": "1,150.00"
+      },
+      "timeout_ms": 8000,
+      "risk": "L0",
+      "intent": "确认余额已更新",
+      "on_failure": "abort"
+    }
+  ],
+  "approved_high_risk": [
+    "s6",
+    "s7"
+  ],
+  "plan_hash": "222424edd31bf2b3"
+}

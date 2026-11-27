@@ -1,0 +1,114 @@
+{
+  "plan_id": "login-demo-bank",
+  "title": "登录 Demo Bank",
+  "requirement": "登录 Demo Bank：用户名 alice，密码 secret，点击登录，断言页面出现 Login successful",
+  "base_url": "http://127.0.0.1:8765/demo.html",
+  "tags": [
+    "auth"
+  ],
+  "preconditions": [],
+  "steps": [
+    {
+      "id": "s1",
+      "action": "navigate",
+      "target": null,
+      "value": "/demo.html",
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L0",
+      "intent": "打开登录页",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s2",
+      "action": "input",
+      "target": {
+        "description": "用户名输入框",
+        "hints": {
+          "text": null,
+          "label": "Username",
+          "placeholder": null,
+          "aria_label": null,
+          "role": null,
+          "name": "username",
+          "test_id": "username",
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": "alice",
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L1",
+      "intent": "输入用户名",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s3",
+      "action": "input",
+      "target": {
+        "description": "密码输入框",
+        "hints": {
+          "text": null,
+          "label": "Password",
+          "placeholder": null,
+          "aria_label": null,
+          "role": null,
+          "name": "password",
+          "test_id": "password",
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": "secret",
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L1",
+      "intent": "输入密码",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s4",
+      "action": "click",
+      "target": {
+        "description": "登录按钮",
+        "hints": {
+          "text": "Login",
+          "label": null,
+          "placeholder": null,
+          "aria_label": null,
+          "role": "button",
+          "name": null,
+          "test_id": null,
+          "nearby_text": null,
+          "container_text": null
+        },
+        "frame": null
+      },
+      "value": null,
+      "assertion": null,
+      "timeout_ms": 8000,
+      "risk": "L2",
+      "intent": "点击登录",
+      "on_failure": "abort"
+    },
+    {
+      "id": "s5",
+      "action": "assert_text",
+      "target": null,
+      "value": null,
+      "assertion": {
+        "kind": "contains",
+        "expected": "Login successful"
+      },
+      "timeout_ms": 8000,
+      "risk": "L0",
+      "intent": "确认登录成功",
+      "on_failure": "abort"
+    }
+  ],
+  "approved_high_risk": [],
+  "plan_hash": "dc8b90c8df7770c1"
+}
